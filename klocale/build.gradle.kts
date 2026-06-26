@@ -1,11 +1,13 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    id("maven-publish")
+    alias(libs.plugins.maven.publish)
 }
 
 group = "com.nowjordanhappy"
-version = "1.0.0-LOCAL"
+version = "1.0.0"
 
 kotlin {
     jvmToolchain(libs.versions.jvmTarget.get().toInt())
@@ -44,5 +46,36 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+
+    coordinates("com.nowjordanhappy", "klocale", "1.0.0")
+
+    pom {
+        name = "KLocale"
+        description = "Kotlin Multiplatform library for in-app language switching on Android and iOS. No Compose dependency — exposes a StateFlow<String>."
+        url = "https://github.com/nowjordanhappy/klocale"
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/licenses/MIT"
+            }
+        }
+        developers {
+            developer {
+                id = "nowjordanhappy"
+                name = "Jordan Rojas"
+                email = "nowjordanhappy@gmail.com"
+            }
+        }
+        scm {
+            url = "https://github.com/nowjordanhappy/klocale"
+            connection = "scm:git:git://github.com/nowjordanhappy/klocale.git"
+            developerConnection = "scm:git:ssh://github.com/nowjordanhappy/klocale.git"
+        }
     }
 }
