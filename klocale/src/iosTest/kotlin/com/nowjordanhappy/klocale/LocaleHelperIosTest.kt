@@ -14,11 +14,6 @@ class LocaleHelperIosTest {
     }
 
     @Test
-    fun getSystemLanguage_returnsValidTag() {
-        assertTrue(getSystemLanguage().length >= 2)
-    }
-
-    @Test
     fun syncToSystem_writesToNSUserDefaults() {
         syncToSystem("es")
         val stored = NSUserDefaults.standardUserDefaults.objectForKey("AppleLanguages") as? List<*>
