@@ -28,14 +28,12 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-        val iosTest by creating {
-            dependsOn(commonTest.get())
-        }
-        getByName("iosX64Test").dependsOn(iosTest)
-        getByName("iosArm64Test").dependsOn(iosTest)
-        getByName("iosSimulatorArm64Test").dependsOn(iosTest)
+        // iosTest is auto-created by Kotlin 2.x default hierarchy; no manual setup needed.
         androidInstrumentedTest.dependencies {
+            implementation(kotlin("test"))
             implementation(libs.androidx.test.ext.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
         }
     }
 }
