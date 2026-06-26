@@ -25,6 +25,18 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.appcompat)
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+        val iosTest by creating {
+            dependsOn(commonTest.get())
+        }
+        getByName("iosX64Test").dependsOn(iosTest)
+        getByName("iosArm64Test").dependsOn(iosTest)
+        getByName("iosSimulatorArm64Test").dependsOn(iosTest)
+        androidInstrumentedTest.dependencies {
+            implementation(libs.androidx.test.ext.junit)
+        }
     }
 }
 
@@ -33,5 +45,6 @@ android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
