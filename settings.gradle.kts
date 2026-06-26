@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "klocale"
 include(":klocale")
+include(":sample:composeApp")
