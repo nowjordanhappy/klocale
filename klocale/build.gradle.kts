@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "com.nowjordanhappy"
+group = "io.github.nowjordanhappy"
 version = "1.0.0"
 
 kotlin {
@@ -53,7 +53,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("com.nowjordanhappy", "klocale", "1.0.0")
+    coordinates("io.github.nowjordanhappy", "klocale", "1.0.0")
 
     pom {
         name = "KLocale"
