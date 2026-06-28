@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-06-27
+
+### Added
+- README with installation, usage, Android and iOS setup instructions, and requirements table
+- Demo GIFs for Android API 30, Android API 36, and iOS in README
+- Maven Central, License, and Kotlin version badges in README
+- MIT License
+- Sample app launcher icons (KMP cube) for Android and iOS
+- `CHANGELOG.md` — all future releases documented here
+- CI now auto-creates a GitHub Release with changelog notes on every `v*` tag push
+
 ## [1.0.0] - 2026-06-27
 
 ### Added
