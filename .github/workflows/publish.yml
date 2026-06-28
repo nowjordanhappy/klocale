@@ -19,6 +19,9 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
 
+      - name: Run tests
+        run: ./gradlew :klocale:allTests
+
       - name: Publish to Maven Central
         run: ./gradlew :klocale:publishAllPublicationsToMavenCentralRepository
         env:
