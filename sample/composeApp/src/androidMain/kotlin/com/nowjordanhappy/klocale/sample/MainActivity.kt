@@ -1,34 +1,25 @@
 package com.nowjordanhappy.klocale.sample
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
+import android.content.Context
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.nowjordanhappy.klocale.KLocale
+import com.nowjordanhappy.klocale.openSystemScreen
+import com.nowjordanhappy.klocale.wrap
 
+/** A plain ComponentActivity: klocale's platform mode needs only the attachBaseContext override. */
 class MainActivity : ComponentActivity() {
-    private val klocale = KLocale(
-        supported = listOf("es", "en", "pt", "fr", "it"),
-        fallback = "en"
-    )
+    private val languages = listOf("es", "en", "pt", "fr", "it")
+    private val klocale = KLocale(supported = languages, fallback = "en")
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(KLocale.wrap(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { App(klocale, onOpenSettings = ::openLanguageSettings) }
-    }
-
-    private fun openLanguageSettings() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            startActivity(
-                Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
-                    data = Uri.fromParts("package", packageName, null)
-                }
-            )
-        } else {
-            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
-        }
+        // Below 13 there is no per-app system screen: App() shows its own list when this returns false.
+        setContent { App(klocale, languages, onOpenSettings = { klocale.openSystemScreen(this) }) }
     }
 }

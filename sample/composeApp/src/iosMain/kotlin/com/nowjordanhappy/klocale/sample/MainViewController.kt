@@ -7,13 +7,11 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 
 // ponytail: top-level val — no DI needed in sample
-private val klocale = KLocale(
-    supported = listOf("es", "en", "pt", "fr", "it"),
-    fallback = "en"
-)
+private val languages = listOf("es", "en", "pt", "fr", "it")
+private val klocale = KLocale(supported = languages, fallback = "en")
 
 fun MainViewController() = ComposeUIViewController {
-    App(klocale, onOpenSettings = {
+    App(klocale, languages, onOpenSettings = {
         NSURL.URLWithString(UIApplicationOpenSettingsURLString)?.let { url ->
             UIApplication.sharedApplication.openURL(
                 url,
@@ -21,5 +19,6 @@ fun MainViewController() = ComposeUIViewController {
                 completionHandler = null
             )
         }
+        true
     })
 }

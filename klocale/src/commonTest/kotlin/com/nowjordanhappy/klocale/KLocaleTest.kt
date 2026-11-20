@@ -7,6 +7,45 @@ import kotlin.test.assertTrue
 class KLocaleTest {
     private val supported = listOf("es", "en", "pt", "fr", "it")
 
+    /** The phone in [system], nothing picked: what every test starts from. */
+    private class FakeBackend(var system: String = "en-US", var picked: String? = null) : LocaleBackend {
+        val applied = mutableListOf<String?>()
+        override fun systemLanguage() = system
+        override fun chosen() = picked
+        override fun apply(tag: String?) { picked = tag; applied += tag }
+    }
+
+    private fun KLocale(supported: List<String>, fallback: String = "en", onChanged: ((String) -> Unit)? = null, backend: LocaleBackend = FakeBackend()) =
+        com.nowjordanhappy.klocale.KLocale(supported, fallback, onChanged, backend)
+
+    @Test
+    fun startsFromAPickMadeBefore() {
+        val klocale = KLocale(supported, backend = FakeBackend(system = "en", picked = "fr"))
+        assertEquals("fr", klocale.chosen.value)
+        assertEquals("fr", klocale.current.value)
+    }
+
+    @Test
+    fun withoutAPick_followsThePhone() {
+        val klocale = KLocale(supported, backend = FakeBackend(system = "es-PE"))
+        assertEquals(null, klocale.chosen.value)
+        assertEquals("es", klocale.current.value)
+    }
+
+    @Test
+    fun set_reachesTheBackend_andFollowSystemClearsIt() {
+        val backend = FakeBackend(system = "it-IT")
+        val calls = mutableListOf<String>()
+        val klocale = KLocale(supported, onChanged = { calls += it }, backend = backend)
+        klocale.set("es")
+        assertEquals("es", klocale.chosen.value)
+        klocale.followSystem()
+        assertEquals(null, klocale.chosen.value)
+        assertEquals("it", klocale.current.value)
+        assertEquals(listOf("es", null), backend.applied)
+        assertEquals(listOf("es", "it"), calls)
+    }
+
     @Test
     fun set_updatesCurrentValue() {
         val klocale = KLocale(supported, fallback = "en")

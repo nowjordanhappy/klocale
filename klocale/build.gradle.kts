@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.nowjordanhappy"
-version = "1.0.1"
+version = "2.0.0"
 
 kotlin {
     jvmToolchain(libs.versions.jvmTarget.get().toInt())
@@ -23,9 +23,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
-        }
-        androidMain.dependencies {
-            implementation(libs.androidx.appcompat)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -53,11 +50,11 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("io.github.nowjordanhappy", "klocale", "1.0.1")
+    coordinates("io.github.nowjordanhappy", "klocale", "2.0.0")
 
     pom {
         name = "KLocale"
-        description = "Kotlin Multiplatform library for in-app language switching on Android and iOS. No Compose dependency — exposes a StateFlow<String>."
+        description = "Kotlin Multiplatform library for in-app language switching on Android and iOS. Works with a plain ComponentActivity (no AppCompat); klocale-appcompat for AppCompatActivity apps."
         url = "https://github.com/nowjordanhappy/klocale"
         licenses {
             license {

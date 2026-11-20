@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Hands KLocale the application Context before Application.onCreate; not exported. -->
+        <provider
+            android:name="com.nowjordanhappy.klocale.KLocaleInitializer"
+            android:authorities="${applicationId}.klocale-init"
+            android:exported="false" />
+    </application>
+</manifest>

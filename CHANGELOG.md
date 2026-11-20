@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-20
+
+### Added
+- Platform mode (default on Android): the system's per-app language on Android 13+, and below 13 a stored pick applied by `KLocale.wrap(context)` in `attachBaseContext` — works with a plain `ComponentActivity`, no AppCompat. KLocale recreates the running activities after a pick below 13. `wrap` also sets `Locale.getDefault()`, so Compose Multiplatform resources and number/date formatting follow the pick.
+- The sample shows its own language list where the system screen doesn't exist (below Android 13).
+- `klocale-appcompat` artifact: `KLocale.appCompat(…)` for apps on `AppCompatActivity`, shipping the `AppLocalesMetadataHolderService` so the pick survives restarts below 13.
+- `chosen: StateFlow<String?>` (null while following the phone) and `followSystem()`.
+- `KLocale.openSystemScreen(activity)`, `KLocale.localizedContext(context)`, `languageName(tag)`.
+- A language AppCompat stored below 13 (1.x apps) is read once and kept.
+- A pick made below 13 is handed to the system once the phone updates to Android 13+.
+
+### Changed
+- **Breaking:** the core artifact no longer depends on AppCompat. AppCompat apps add `klocale-appcompat`.
+- `set()` works on Android 13+ without an AppCompatActivity (it talks to `LocaleManager` directly).
+- Regional tags match exactly first: `pt-BR` in `supported` is picked for `pt-BR` (and for `pt`).
+
+### Removed
+- `getSystemLanguage()` and `syncToSystem()` (use `getSystemDefault()`, `set()`, `followSystem()`).
+
 ## [1.0.1] - 2026-06-27
 
 ### Added

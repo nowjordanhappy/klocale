@@ -38,4 +38,10 @@ class MapToSupportedTest {
 
     @Test
     fun uppercaseSupportedList() = assertEquals("ES", mapToSupported("es", listOf("ES", "EN"), "EN"))
+
+    @Test
+    fun regionalTagInSupported_exactFirst() = assertEquals("pt-BR", mapToSupported("pt-BR", listOf("en", "pt-BR"), "en"))
+
+    @Test
+    fun languageOnly_findsTheRegionalSupported() = assertEquals("pt-BR", mapToSupported("pt-PT", listOf("en", "pt-BR"), "en"))
 }
